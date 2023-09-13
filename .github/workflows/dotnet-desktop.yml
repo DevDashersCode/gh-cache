@@ -82,17 +82,6 @@ jobs:
         # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
         key: sample_key_updated
         enableCrossOsArchive: true
-    
-    - name: Check Cache
-      id: check-cache
-      run: |
-        if [ ! -d "bin" ]; then
-          echo "Cache does not exist."
-          echo "::set-output name=cache-exists::false"
-        else
-          echo "Cache exists"
-          echo "::set-output name=cache-exists::true"
-        fi
         
       # Install the .NET Core workload
     - name: Install .NET Core

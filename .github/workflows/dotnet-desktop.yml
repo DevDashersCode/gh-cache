@@ -85,13 +85,13 @@ jobs:
     - name: Check Cache
       id: check-cache
       run: |
-        if not exist publish (
+        if (-Not (Test-Path -Path "publish" -PathType Container)) {
           echo "Cache does not exist."
           echo "::set-output name=cache-exists::false"
-        ) else (
+        } else {
           echo "Cache exists"
           echo "::set-output name=cache-exists::true"
-        )
+        }
       # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v3

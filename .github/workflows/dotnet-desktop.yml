@@ -35,6 +35,9 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Build Project
+      run: dotnet build --configuration Release
+
+    - name: Save Cache
       uses: actions/cache@v3
       with:
         path: |

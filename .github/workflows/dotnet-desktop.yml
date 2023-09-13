@@ -22,11 +22,13 @@ jobs:
       run: echo "::set-output name=key::${{ github.sha }}"
 
     - name: Restore Cache
+      id: restore-cache
       uses: actions/cache@v3
       with:
         path: |
           bin/
         key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
+      continue-on-error: true
 
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -35,6 +37,7 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Build Project
+      if: steps.restore-cache.outcome != 'success'
       run: dotnet build --configuration Release
 
     - name: Save Cache
@@ -43,3 +46,5 @@ jobs:
         path: |
           bin/
         key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
+    - name: Run Application
+      run: dotnet bin/Release/net6.0/HelloCache.dll

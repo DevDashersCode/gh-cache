@@ -1,0 +1,41 @@
+name: .NET Core Desktop
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Set Cache Key
+      id: cache-key
+      run: echo "::set-output name=key::${{ github.sha }}"
+
+    - name: Restore Cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          bin/
+        key: ${{ runner.os }}-${{ steps.cache-key.output.key }}
+
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Build Project
+      uses: actions/cache@v3
+      with:
+        path: |
+          bin/
+        key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}

@@ -27,7 +27,7 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
-        key: sample_key_updated
+        key: sample_key_updated_1
         enableCrossOsArchive: true
     
     - name: Check Cache
@@ -60,7 +60,7 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
-        key: sample_key_updated
+        key: sample_key_updated_1
         enableCrossOsArchive: true
     - name: Run Application
       run: dotnet bin/Release/net6.0/HelloCache.dll
@@ -80,7 +80,7 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
-        key: sample_key_updated
+        key: sample_key_updated_1
         enableCrossOsArchive: true
         
       # Install the .NET Core workload

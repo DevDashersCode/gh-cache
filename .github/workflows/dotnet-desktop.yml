@@ -27,7 +27,8 @@ jobs:
       with:
         path: |
           bin/
-        key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
+        # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
+        key: sample_key
     
     - name: Check Cache
       id: check-cache
@@ -58,6 +59,7 @@ jobs:
       with:
         path: |
           bin/
-        key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
+        # key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
+        key: sample_key
     - name: Run Application
       run: dotnet bin/Release/net6.0/HelloCache.dll

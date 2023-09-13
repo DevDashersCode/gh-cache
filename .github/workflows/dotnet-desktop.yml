@@ -47,13 +47,13 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Build Project
-      if: ${{ steps.check-cache.outputs.cache-exists }} == 'false'
+      if: ${{ steps.check-cache.outputs.cache-exists }} == false
       run: |
         echo steps.check-cache.outputs.cache-exists-${{ steps.check-cache.outputs.cache-exists }}
         dotnet build --configuration Release
 
     - name: Save Cache
-      if: ${{ steps.check-cache.outputs.cache-exists }} == 'false'
+      if: ${{ steps.check-cache.outputs.cache-exists }} == false
       uses: actions/cache@v3
       with:
         path: |

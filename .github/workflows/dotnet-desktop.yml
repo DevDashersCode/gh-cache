@@ -37,8 +37,10 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Build Project
-      if: steps.restore-cache.outcome != 'success'
-      run: dotnet build --configuration Release
+      # if: steps.restore-cache.outcome != 'success'
+      run: |
+        echo steps.restore-cache.outcome
+        dotnet build --configuration Release
 
     - name: Save Cache
       uses: actions/cache@v3

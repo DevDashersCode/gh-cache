@@ -67,6 +67,7 @@ jobs:
 
   windows_build:
     runs-on: windows-latest
+    needs: build
     steps:
     - name: Checkout
       uses: actions/checkout@v3

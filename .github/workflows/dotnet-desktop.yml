@@ -10,6 +10,7 @@ on:
 jobs:
   linux_build:
     runs-on: ubuntu-latest
+    needs: windows_build
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -27,7 +28,7 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
-        key: sample_key_updated_1
+        key: sample_key_updated_2
         enableCrossOsArchive: true
     
     - name: Check Cache
@@ -60,14 +61,13 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
-        key: sample_key_updated_1
+        key: sample_key_updated_2
         enableCrossOsArchive: true
     - name: Run Application
       run: dotnet bin/Release/net6.0/HelloCache.dll
 
   windows_build:
     runs-on: windows-latest
-    needs: linux_build
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -80,9 +80,18 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
-        key: sample_key_updated_1
+        key: sample_key_updated_2
         enableCrossOsArchive: true
-        
+    - name: Check Cache
+      id: check-cache
+      run: |
+        if not exist publish (
+          echo "Cache does not exist."
+          echo "::set-output name=cache-exists::false"
+        ) else (
+          echo "Cache exists"
+          echo "::set-output name=cache-exists::true"
+        )
       # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v3
@@ -90,3 +99,12 @@ jobs:
         dotnet-version: 6.0.x
     - name: Run Application
       run: dotnet bin/Release/net6.0/HelloCache.dll
+    - name: Save Cache
+      if: steps.check-cache.outputs.cache-exists == 'false'
+      uses: actions/cache@v3
+      with:
+        path: |
+          bin/
+        # key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
+        key: sample_key_updated_2
+        enableCrossOsArchive: true

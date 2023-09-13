@@ -34,6 +34,7 @@ jobs:
       run: |
         if [ ! -d "bin" ]; then
           echo "Cache does not exist."
+          echo "::set-output name=cache-exists::false"
         else
           echo "Cache exists"
           echo "::set-output name=cache-exists::true"

@@ -85,7 +85,7 @@ jobs:
     - name: Check Cache
       id: check-cache
       run: |
-        if (-Not (Test-Path -Path "publish" -PathType Container)) {
+        if (-Not (Test-Path -Path "bin" -PathType Container)) {
           echo "Cache does not exist."
           echo "::set-output name=cache-exists::false"
         } else {

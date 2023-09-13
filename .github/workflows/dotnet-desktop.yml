@@ -8,7 +8,6 @@ on:
   workflow_dispatch: {}
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +27,8 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
-        key: sample_key
+        key: sample_key_updated
+        enableCrossOsArchive: true
     
     - name: Check Cache
       id: check-cache
@@ -60,6 +60,43 @@ jobs:
         path: |
           bin/
         # key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
-        key: sample_key
+        key: sample_key_updated
+        enableCrossOsArchive: true
+    - name: Run Application
+      run: dotnet bin/Release/net6.0/HelloCache.dll
+
+  windows_build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Restore Cache
+      id: restore-cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          bin/
+        # key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
+        key: sample_key_updated
+        enableCrossOsArchive: true
+    
+    - name: Check Cache
+      id: check-cache
+      run: |
+        if [ ! -d "bin" ]; then
+          echo "Cache does not exist."
+          echo "::set-output name=cache-exists::false"
+        else
+          echo "Cache exists"
+          echo "::set-output name=cache-exists::true"
+        fi
+        
+      # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
     - name: Run Application
       run: dotnet bin/Release/net6.0/HelloCache.dll

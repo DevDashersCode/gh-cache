@@ -26,7 +26,7 @@ jobs:
       with:
         path: |
           bin/
-        key: ${{ runner.os }}-${{ steps.cache-key.output.key }}
+        key: ${{ runner.os }}-${{ steps.cache-key.outputs.key }}
 
     # Install the .NET Core workload
     - name: Install .NET Core

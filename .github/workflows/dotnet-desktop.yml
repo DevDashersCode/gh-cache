@@ -113,3 +113,5 @@ jobs:
         # key: ${{ runner.os}}-${{ steps.cache-key.outputs.key }}
         key: sample_key_updated_2
         enableCrossOsArchive: true
+    - name: check dir
+      run: dir bin
